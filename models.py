@@ -10,8 +10,9 @@ class BaseModel(Model):
     class Meta:
         database = database
 
-    def number_of_rows(self):
-        return len(self.select())
+    @classmethod
+    def row_count(cls):
+        return len(cls.select())
 
 
 class Item(BaseModel):
