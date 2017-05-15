@@ -10,6 +10,9 @@ class BaseModel(Model):
     class Meta:
         database = database
 
+    def number_of_rows(self):
+        return len(self.select())
+
 
 class Item(BaseModel):
     uuid = UUIDField(unique=True)
