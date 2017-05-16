@@ -31,7 +31,8 @@ class Item(BaseModel):
             'category': self.category
         }
 
-    def exists_uuid(self, check_uuid):
+    @classmethod
+    def exists_uuid(cls, check_uuid):
         if Item.select().where(Item.item_id == check_uuid).exists():
             return True
         else:
@@ -55,7 +56,8 @@ class User(BaseModel):
     def get_favorite_items(self):
         return [favorite.item.json() for favorite in self.favorites]
 
-    def exists_uuid(self, check_uuid):
+    @classmethod
+    def exists_uuid(cls, check_uuid):
         if User.select().where(User.user_id == check_uuid).exists():
             return True
         else:
