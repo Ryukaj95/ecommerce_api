@@ -38,6 +38,7 @@ class Item(BaseModel):
         else:
             return False
 
+
 class User(BaseModel):
     uuid = UUIDField(unique=True)
     first_name = CharField()
