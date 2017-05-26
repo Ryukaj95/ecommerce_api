@@ -95,14 +95,14 @@ class TestItems:
         }
         resp = self.app.post('/items/', data=new_item_data)
         assert resp.status_code == BAD_REQUEST
-        assert Item.row_count() == 0
+        assert len(Item.select()) == 0
 
-    def test_post__price_value_as_a_string(self):
-        source_item = {
-            'name': 'ciao',
-            'price': 'stringa',
-            'description': 'desc3',
-            'category': 'varie'
+    def test_create_item__failure_field_wrong_type(self):
+        new_item_data = {
+            'name': 'Item one',
+            'price': 'Ten',
+            'description': 'Description one',
+            'category': 'Category one'
         }
         resp = self.app.post('/items/', data=new_item_data)
         assert resp.status_code == BAD_REQUEST
@@ -151,7 +151,7 @@ class TestItems:
         resp = self.app.delete('item/{}'.format(item1.uuid))
         assert resp.status_code == NO_CONTENT
         assert Item.row_count() == 0
-        resp = self.app.get('item/{}'.format(obj1.item_id))
+        resp = self.app.get('item/{}'.format(item1.uuid))
         assert resp.status_code == NOT_FOUND
 
     def test_delete_item__failure_not_found(self):
