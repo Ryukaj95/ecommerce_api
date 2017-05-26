@@ -2,6 +2,7 @@ from peewee import Model, SqliteDatabase
 from peewee import DecimalField, TextField, CharField
 from peewee import UUIDField, ForeignKeyField, IntegerField
 from passlib.hash import pbkdf2_sha256
+import uuid
 
 database = SqliteDatabase('database.db')
 
@@ -59,6 +60,7 @@ class User(BaseModel):
 
     def add_favorite(self, item):
         favorite = Favorites.create(
+            uuid=uuid.uuid4(),
             user=self,
             item=item,
         )
