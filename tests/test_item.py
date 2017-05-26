@@ -86,7 +86,7 @@ class TestItems:
         }
         resp = self.app.post('/items/', data=new_item_data)
         assert resp.status_code == BAD_REQUEST
-        assert Item.row_count() == 0
+        assert Item.count() == 0
 
     def test_create_item__failure_missing_field(self):
         new_item_data = {
@@ -106,7 +106,7 @@ class TestItems:
         }
         resp = self.app.post('/items/', data=new_item_data)
         assert resp.status_code == BAD_REQUEST
-        assert Item.row_count() == 0
+        assert Item.count() == 0
 
     def test_get__item(self):
         item1 = Item.create(
@@ -150,7 +150,7 @@ class TestItems:
 
         resp = self.app.delete('item/{}'.format(item1.uuid))
         assert resp.status_code == NO_CONTENT
-        assert Item.row_count() == 0
+        assert Item.count() == 0
         resp = self.app.get('item/{}'.format(item1.uuid))
         assert resp.status_code == NOT_FOUND
 

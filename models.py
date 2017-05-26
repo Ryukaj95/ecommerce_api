@@ -11,8 +11,8 @@ class BaseModel(Model):
         database = database
 
     @classmethod
-    def row_count(cls):
-        return len(cls.select())
+    def count(cls):
+        return cls.select().count()
 
 
 class Item(BaseModel):
@@ -56,13 +56,6 @@ class User(BaseModel):
 
     def favorite_items(self):
         return [favorite.item.json() for favorite in self.favorites]
-
-    @classmethod
-    def exists_uuid(cls, check_uuid):
-        if User.select().where(User.user_id == check_uuid).exists():
-            return True
-        else:
-            return False
 
     def add_favorite(self, item):
         favorite = Favorites.create(
@@ -145,11 +138,13 @@ class Picture(BaseModel):
 
 
 class Favorites(BaseModel):
+    uuid = UUIDField(unique=True)
     user = ForeignKeyField(User, related_name="favorites")
     item = ForeignKeyField(Item, related_name="favorites")
 
     def json(self):
         return {
+            'uuid': str(self.uuid),
             'user': str(self.user.uuid),
             'item': str(self.item.uuid)
         }
